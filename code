@@ -1,0 +1,171 @@
+#include <GL/glut.h>
+void display()
+{
+ glClear(GL_COLOR_BUFFER_BIT);
+ glLoadIdentity();
+ //glTranslatef(0.5, 0.5, 0.0); // translate by 0.5 in the x and y directions
+// glRotatef(45.0, 0.0, 0.0, 1.0); // rotate by 45 degrees around the z axis
+ //glScalef(2.0, 2.0, 1.0); // scale by a factor of 2 in the x and y directions
+ glBegin(GL_QUADS);
+ glColor3f(0.9, 0.1, 0.1); // color
+ glVertex2f(-0.5, -0.5);
+ glVertex2f(-0.5, 0.5);
+ glVertex2f(0.5, 0.5);
+ glVertex2f(0.5, -0.5);
+ glEnd();
+ glFlush();
+}
+int main(int argc, char** argv)
+{
+ glutInit(&argc, argv);
+ glutCreateWindow("OpenGL Rectangle");
+ glutDisplayFunc(display);
+ glutMainLoop();
+ return 0;
+}
+
+// sudo su 
+//sudo apt install mesa-utils
+//Mesa is an open source 3D computer graphics library that provides a 
+//generic OpenGL implementation for rendering three-dimensional graphics on multiple platforms.
+
+//sudo apt install freeglut3-dev
+// COMPLING
+//g++ filename.cpp -o filename -lglut -lGL -lGLU
+
+//running
+// ./filename
+//geddi
+//sudo apt-get install mesa-utils
+//sudo apt-get install freeglut3-dev
+// COMPLING
+//g++ filename.cpp -o filename -Iglut -IGL -IGLU
+
+#include <GL/glut.h>
+#include <cmath>
+
+GLfloat angle = 0.0;  // rotation angle
+GLfloat scale = 1.0;  // scaling factor
+GLfloat mirror = -1.0; //mirror
+GLfloat x_transform = 0.0; // x translation factor
+GLfloat y_transform = 0.0; // y translation factor
+
+
+void display() {
+  glClear(GL_COLOR_BUFFER_BIT);
+  glLoadIdentity();
+  glRotatef(angle, 0.0,0.0,0.0);
+  //  glScalef(scale, scale, 1.0);  // set scaling transformation
+  //glScalef(scale*mirror, scale, 1.0);
+   //glTranslatef(x_transform, y_transform, 0.0);  // set translation transformation
+  glBegin(GL_TRIANGLES);
+
+    glVertex2f(-0.5, -0.5);  // set the first vertex
+     glColor3f(1.0, 0.0, 0.0);
+    glVertex2f(0.5, -0.5);  // set the second vertex
+     glColor3f(0.0, 0.0, 1.0);
+    glVertex2f(0.0, 0.5);  // set the third vertex
+    glColor3f(0.0, 0.0, 1.0);
+  glEnd();
+  glFlush();
+}
+
+void update(int value) {
+  angle += 1.0;  // increment rotation angle
+  //scale = 0.99;  // decrease scaling factor
+  glutPostRedisplay();
+  glutTimerFunc(25, update, 0);
+}
+
+int main(int argc, char** argv) {
+  glutInit(&argc, argv);
+  glutCreateWindow("GRAPHICS PROJECT");
+  glutDisplayFunc(display);
+  glutTimerFunc(25, update, 0);
+  glutMainLoop();
+  return 0;
+}
+
+
+// glRotatef(angle, 0.0, 0.0, 1.0);  // set rotation transformationz
+#include <GL/glut.h>
+
+    // Global variables
+    float scale_factor = 1.0f;
+    float angle = 0.0f;
+
+    // Display function
+    void display() {
+    // Clear the screen
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Save the current transformation matrix
+    glPushMatrix();
+    // Rotate the object
+    glRotatef(angle, 0.0f, 0.0f, 1.0f);
+
+    // Scale the object
+    glScalef(scale_factor, scale_factor, 1.0f);
+    // glTranslatef(scale_factor,scale_factor,1.0f);
+
+
+
+    // Draw the object
+    glBegin(GL_TRIANGLES);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glVertex2f(0.0f, 0.3f);
+    glColor3f(1.0f, 1.0f, 0.0f);
+    glVertex2f(-0.3f, -0.3f);
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glVertex2f(0.3f, -0.3f);
+    glEnd();
+
+    // Restore the transformation matrix
+    glPopMatrix();
+
+    // Swap the buffers
+    glFlush();
+    // glutSwapBuffers();
+    }
+
+    // Idle function
+    void idle() {
+    // Update the scale and angle
+    scale_factor += 0.00001f;
+    angle += 0.5f;
+
+    // Redraw the scene
+    glutPostRedisplay();
+    }
+
+    // Main function
+    int main(int argc, char** argv) {
+    // Initialize GLUT
+    glutInit(&argc, argv);
+    // glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowSize(640, 480);
+    glutCreateWindow("Scaling and Rotation");
+
+    // Set the background color
+    // glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+    // Set the projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-1.0f, 1.0f, -1.0f, 1.0f);
+
+    // Set the modelview matrix
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    // Register the display and idle functions
+    glutDisplayFunc(display);
+    glutIdleFunc(idle);
+
+    // Start the main loop
+    glutMainLoop();
+
+    return 0;
+    }
+
+
